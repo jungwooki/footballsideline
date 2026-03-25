@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>해온 스포츠클리닉 | MPS Edition 부상 관리</title>
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Pretendard', 'sans-serif'] },
+                    colors: {
+                        laliga: {
+                            red: '#EE1D23',   // LALIGA Red
+                            black: '#0F0F0F', // LALIGA Dark
+                            gray: '#F5F5F5'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #FFFFFF; -webkit-tap-highlight-color: transparent; }
+        .laliga-font-bold { font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        #modal-backdrop { transition: opacity 0.3s ease-out; opacity: 0; pointer-events: none; backdrop-filter: blur(8px); }
+        #modal-backdrop.active { opacity: 1; pointer-events: auto; }
+        #modal-content { transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); transform: translateY(100%); }
+        #modal-content.active { transform: translateY(0); }
+
+        .content-body h4 { font-size: 1.25rem; font-weight: 900; color: #0F0F0F; margin-top: 1.8rem; margin-bottom: 0.8rem; border-left: 6px solid #EE1D23; padding-left: 0.8rem; }
+        .content-body p { color: #333333; line-height: 1.75; margin-bottom: 1.2rem; font-size: 1rem; word-break: keep-all; }
+        .content-body ul { background-color: #F8F8F8; border-radius: 4px; padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #EAEAEA; }
+        .content-body li { position: relative; padding-left: 1.5rem; margin-bottom: 0.8rem; font-size: 0.95rem; color: #111111; font-weight: 500; }
+        .content-body li::before { content: '▪'; position: absolute; left: 0; color: #EE1D23; font-weight: 900; }
+        
+        /* Red Flag Section: Black Background, White Text */
+        .red-flag-box { background-color: #0F0F0F; color: #FFFFFF; border-radius: 4px; padding: 1.5rem; margin-top: 1.5rem; border-top: 4px solid #EE1D23; }
+        .red-flag-box h5 { color: #EE1D23; font-weight: 900; font-size: 1.1rem; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.6rem; text-transform: uppercase; }
+        .red-flag-box p { color: #E5E5E5 !important; font-size: 0.95rem; line-height: 1.6; margin-bottom: 0; }
+        
+        .return-box { background-color: #F0FDF4; border: 1px solid #DCFCE7; border-radius: 4px; padding: 1.5rem; margin-top: 1.5rem; }
+        .return-box h5 { color: #166534; font-weight: 900; font-size: 1.1rem; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.5rem; }
+
+        .doctor-select.active { border-color: #EE1D23; background-color: #FDF2F2; }
+        .btn-laliga { background-color: #EE1D23; color: white; transition: all 0.2s; border-radius: 2px; font-weight: 800; text-transform: uppercase; }
+        .btn-laliga:active { transform: scale(0.96); opacity: 0.9; }
+    </style>
+</head>
+<body class="text-slate-900">
+
+    <!-- Header -->
+    <header class="bg-white border-b-2 border-laliga-black sticky top-0 z-30">
+        <div class="max-w-md mx-auto px-5 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-laliga-red flex items-center justify-center text-white font-black italic shadow-sm">H</div>
+                <div>
+                    <h1 class="text-lg laliga-font-bold leading-none">HAEON SPORTS</h1>
+                    <p class="text-[0.6rem] text-slate-400 font-extrabold uppercase tracking-widest mt-1">축구 부상 질병 현장가이드</p>
+                </div>
+            </div>
+            <div class="flex flex-col items-end">
+                <span class="text-[0.65rem] font-black bg-laliga-black text-white px-2 py-0.5 italic tracking-tighter shadow-sm">MPS EDITION</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-laliga-black text-white py-12 px-6 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-full h-full opacity-5 pointer-events-none">
+            <i class="fas fa-futbol text-[18rem] -mr-24 -mt-12 rotate-12"></i>
+        </div>
+        <div class="max-w-md mx-auto relative z-10">
+            <h2 class="text-4xl laliga-font-bold mb-4 leading-[0.9] tracking-tighter uppercase italic">Stay Strong<br><span class="text-laliga-red">Play Safe</span></h2>
+            <p class="text-xs opacity-80 font-bold tracking-normal uppercase leading-relaxed">의심스러울 땐 주저하지 말고 선수를 보호하십시오.<br>팀의 승리보다 선수의 미래가 더 중요합니다.</p>
+        </div>
+    </section>
+
+    <!-- [1] Home View -->
+    <main id="view-home" class="max-w-md mx-auto px-4 py-8 fade-in block">
+        <!-- Quick Action: 4 Steps Evaluation -->
+        <div class="mb-10 bg-white border-2 border-laliga-black p-6 relative shadow-md">
+            <div class="absolute -top-3 left-6 bg-laliga-red text-white text-[0.65rem] font-black px-3 py-1 italic">CORE PROTOCOL</div>
+            <h3 class="text-xl laliga-font-bold mb-4">ON-FIELD 4 STEPS <span class="text-slate-300 font-light">/</span> 현장 평가</h3>
+            <div class="grid grid-cols-2 gap-2">
+                <div class="bg-laliga-gray p-4 border-l-4 border-laliga-black">
+                    <span class="text-[0.6rem] font-black text-laliga-red block mb-1">STORY</span>
+                    <p class="text-sm font-black">문진 (경위)</p>
+                </div>
+                <div class="bg-laliga-gray p-4 border-l-4 border-laliga-black">
+                    <span class="text-[0.6rem] font-black text-laliga-red block mb-1">LOOK</span>
+                    <p class="text-sm font-black">관찰 (상태)</p>
+                </div>
+                <div class="bg-laliga-gray p-4 border-l-4 border-laliga-black">
+                    <span class="text-[0.6rem] font-black text-laliga-red block mb-1">FEEL</span>
+                    <p class="text-sm font-black">촉진 (통증)</p>
+                </div>
+                <div class="bg-laliga-gray p-4 border-l-4 border-laliga-black">
+                    <span class="text-[0.6rem] font-black text-laliga-red block mb-1">MOVE</span>
+                    <p class="text-sm font-black">가동 (움직임)</p>
+                </div>
+            </div>
+            <button onclick="openModal(100)" class="w-full mt-5 py-4 btn-laliga text-sm shadow-[4px_4px_0px_0px_rgba(15,15,15,1)]">
+                평가 가이드 전체 보기 <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+
+        <!-- Injury Categories -->
+        <div class="flex flex-col gap-3 mb-12" id="category-list">
+            <!-- Injected via JS -->
+        </div>
+
+        <!-- Medical Staff -->
+        <section class="mb-12">
+            <div class="mb-6 flex items-end justify-between border-b-2 border-laliga-black pb-2">
+                <h2 class="text-2xl laliga-font-bold">MEDICAL STAFF</h2>
+                <span class="text-[0.65rem] font-black text-laliga-red italic">HAEON CLINIC</span>
+            </div>
+            <div class="grid grid-cols-4 gap-2 mb-4" id="doctor-buttons">
+                <!-- Injected via JS (Original HAON Doctors) -->
+            </div>
+            <div class="bg-laliga-black text-white p-6 relative min-h-[180px] shadow-lg" id="doctor-detail">
+                <!-- Injected via JS -->
+            </div>
+        </section>
+
+        <!-- Footer & Contact -->
+        <footer class="text-center py-10 border-t border-slate-100 bg-laliga-gray">
+            <div class="max-w-md mx-auto px-6">
+                <div class="mb-8">
+                    <p class="text-[0.7rem] font-black text-laliga-black uppercase tracking-[0.2em] mb-2">Haeon Soccer & Sports Clinic</p>
+                    <p class="text-sm font-black text-laliga-black mb-4 tracking-tighter">해온한의원 축구&스포츠클리닉</p>
+                    
+                    <div class="bg-white border border-slate-200 p-5 rounded-sm shadow-sm inline-block w-full">
+                        <p class="text-[0.65rem] font-bold text-slate-400 uppercase mb-2 tracking-tighter">Inquiries / 공식 문의</p>
+                        <a href="mailto:jrgoldenage@gmail.com" class="text-laliga-red font-black text-lg underline italic tracking-tighter">jrgoldenage@gmail.com</a>
+                    </div>
+                </div>
+
+                <div class="flex justify-center gap-5 mb-6 opacity-30">
+                    <i class="fas fa-shield-alt text-xl"></i>
+                    <i class="fas fa-notes-medical text-xl"></i>
+                    <i class="fas fa-running text-xl"></i>
+                </div>
+                
+                <p class="text-[0.6rem] text-slate-400 font-bold uppercase tracking-tight">Scientific Support for Professional Athletes</p>
+                <p class="text-[0.55rem] text-slate-300 mt-2 uppercase tracking-widest">&copy; HAEON CLINIC ALL RIGHTS RESERVED.</p>
+            </div>
+        </footer>
+    </main>
+
+    <!-- [2] Category View -->
+    <main id="view-category" class="max-w-md mx-auto px-4 py-8 fade-in hidden pb-24">
+        <button onclick="closeCategory()" class="flex items-center text-laliga-black mb-8 font-black text-xs uppercase tracking-tighter hover:text-laliga-red transition-all">
+            <i class="fas fa-chevron-left mr-2"></i> 대시보드로 돌아가기
+        </button>
+
+        <div class="mb-10">
+            <span id="cat-prefix" class="text-[0.65rem] font-black text-laliga-red mb-1 block tracking-widest uppercase italic">SECTION / REPORT</span>
+            <h2 id="cat-title" class="text-3xl laliga-font-bold leading-none">제목</h2>
+            <div class="w-16 h-1.5 bg-laliga-red mt-4 mb-5"></div>
+            <p id="cat-desc" class="text-slate-600 text-sm font-bold leading-relaxed"></p>
+        </div>
+
+        <div id="item-list" class="flex flex-col gap-3">
+            <!-- Injected via JS -->
+        </div>
+    </main>
+
+    <!-- [3] Detail Modal -->
+    <div id="modal-backdrop" class="fixed inset-0 z-40 bg-laliga-black/90" onclick="closeModal()"></div>
+    <div id="modal-content" class="fixed inset-x-0 bottom-0 z-50 flex justify-center pointer-events-none">
+        <div class="bg-white w-full max-w-md pointer-events-auto flex flex-col h-[88vh] border-t-8 border-laliga-red">
+            <!-- Modal Header -->
+            <div class="px-6 pt-6 pb-4 border-b border-slate-100 flex-shrink-0 relative">
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <span id="modal-tag" class="text-laliga-red font-black text-[0.65rem] mb-1 block tracking-widest uppercase">MEDICAL DATA REPORT</span>
+                        <h3 id="modal-title" class="text-2xl laliga-font-bold text-laliga-black leading-tight">상세 정보</h3>
+                    </div>
+                    <button onclick="closeModal()" class="w-10 h-10 bg-laliga-gray flex items-center justify-center text-laliga-black hover:bg-slate-200 transition-colors">
+                        <i class="fas fa-times text-lg"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Modal Body -->
+            <div id="modal-body" class="px-6 py-6 overflow-y-auto content-body bg-white flex-grow">
+                <!-- Injected via JS -->
+            </div>
+            <!-- Action Button -->
+            <div class="p-6 bg-laliga-black flex-shrink-0">
+                <button onclick="closeModal()" class="w-full py-4 btn-laliga tracking-widest text-sm">리포트 닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Data Definitions ---
+        const categories = [
+            { id: 'cat1', title: '하지 부상 (LOWER BODY)', icon: 'fa-shoe-prints', desc: '발목, 무릎, 고관절 등 하체 부상 관리법', items: [1, 2, 6, 12, 16] },
+            { id: 'cat2', title: '안면 및 두부 (HEAD & FACE)', icon: 'fa-user-injured', desc: '뇌진탕(Concussion), 눈, 코, 구강 외상', items: [3, 10, 14] },
+            { id: 'cat3', title: '상지 및 척추 (UPPER & SPINE)', icon: 'fa-child', desc: '어깨, 손목, 손가락 및 목/허리 부상', items: [8, 9, 17] },
+            { id: 'cat4', title: '외상 및 타박 (SKIN & TRAUMA)', icon: 'fa-band-aid', desc: '타박상, 찰과상, 물집 등 피부 외상 관리', items: [4, 11, 15] },
+            { id: 'cat5', title: '환경 및 활력 (VITAL & ENV)', icon: 'fa-sun', desc: '열사병, 근육 경련, 벌레 물림 등 응급 처치', items: [5, 13, 7] }
+        ];
+
+        const injuries = {
+            100: {
+                title: "4단계 현장 평가법 (PROTOCOL)",
+                content: `
+                    <div class="bg-laliga-gray p-6 mb-8 border-l-8 border-laliga-red">
+                        <p class="font-black text-laliga-black text-lg mb-1 uppercase">현장 응급 평가 매뉴얼</p>
+                        <p class="text-xs text-slate-500 font-extrabold uppercase tracking-widest">On-Field Evaluation Guide</p>
+                    </div>
+                    <h4>STEP 01: 문진 (The Story)</h4>
+                    <p>선수에게 사고 경위를 듣습니다. "뚝" 하는 소리(Pop)나 찢어지는 느낌(Tear)이 있었는지 확인하십시오. 이는 인대 파열이나 골절의 중요한 단서입니다.</p>
+                    <h4>STEP 02: 관찰 (The Look)</h4>
+                    <p>부상 부위의 부종(Swelling), 출혈, 육안으로 확인되는 변형(Deformity)이 있는지 확인합니다. 즉각적인 변형은 매우 심각한 상황입니다.</p>
+                    <h4>STEP 03: 촉진 (The Feel)</h4>
+                    <p>환부 주변을 부드럽게 눌러봅니다. 가벼운 접촉에도 극심한 통증을 느낀다면 골절(Fracture)을 최우선으로 의심해야 합니다.</p>
+                    <h4>STEP 04: 가동 (The Movement)</h4>
+                    <p>선수가 스스로 환부를 움직일 수 있는지(Active Motion) 확인합니다. 스스로 움직이지 못한다면 중등도 이상의 부상이므로 절대 강제로 움직이지 마십시오.</p>
+                `
+            },
+            1: {
+                title: "발목 및 발 부상 (ANKLE & FOOT)",
+                content: `
+                    <p>축구에서 가장 빈번한 부상입니다. 주로 발목 염좌(Sprain)이며, 초기 대응이 만성 재발 여부를 결정합니다.</p>
+                    <h4>핵심 평가 항목</h4>
+                    <ul>
+                        <li>사고 당시 소리나 찢어지는 감각이 있었는가?</li>
+                        <li>부상 후 몇 분 내에 심한 부종이 발생하는가?</li>
+                        <li>선수 스스로 걸어서 경기장 밖으로 나올 수 있는가?</li>
+                    </ul>
+                    <div class="red-flag-box">
+                        <h5>⚠️ RED FLAGS (즉시 응급실 이송)</h5>
+                        <p>눈에 띄는 뼈의 변형, 발의 감각 마비 혹은 차가워짐, 전혀 걸을 수 없는 상태(Non-weight bearing)는 즉각적인 정밀 진단이 필요합니다.</p>
+                    </div>
+                `
+            },
+            2: {
+                title: "무릎 부상 (KNEE INJURIES)",
+                content: `
+                    <p>축구의 방향 전환 시 발생하는 비접촉성 손상(Non-contact injury)을 가장 주의해야 합니다.</p>
+                    <h4>RICE 요법 시행</h4>
+                    <p>즉시 휴식(Rest), 아이싱(Ice), 압박(Compression), 거상(Elevation)을 시행하여 염증 확산을 막으십시오.</p>
+                    <div class="red-flag-box">
+                        <h5>⚠️ RED FLAGS</h5>
+                        <p>무릎이 어긋난 느낌, 심한 부종, 무릎이 잠기는 현상(Locking) 발생 시 전문가의 진찰이 필수입니다.</p>
+                    </div>
+                `
+            },
+            3: {
+                title: "뇌진탕 (CONCUSSION)",
+                content: `
+                    <p>의식 소실(Loss of consciousness)이 없더라도 뇌진탕일 수 있습니다. 뇌 기능의 일시적 장애를 뜻합니다.</p>
+                    <h4>관찰 증상</h4>
+                    <ul>
+                        <li>멍한 표정, 느린 반응, 대답이 어눌함</li>
+                        <li>극심한 두통, 빛이나 소음에 대한 민감 반응</li>
+                        <li>감정 조절 장애 (갑작스러운 울음이나 화)</li>
+                    </ul>
+                    <div class="red-flag-box">
+                        <h5>⚠️ RED FLAGS (심각한 뇌손상 징후)</h5>
+                        <p>반복적인 구토, 심한 두통 악화, 경련, 의식 불명, 말소리가 꼬이는 현상이 나타나면 즉시 119를 부르십시오.</p>
+                    </div>
+                `
+            },
+            4: { title: "찰과상 및 열상 (LACERATIONS)", content: `<p>지혈과 세척이 핵심입니다. 상처가 깊으면 즉시 봉합이 필요합니다.</p>` },
+            5: { title: "열 질환 (HEAT ILLNESS)", content: `<p>체온 조절 능력이 부족한 유소년은 열사병(Heat stroke)에 매우 취약합니다.</p>` },
+            6: { title: "염좌 (SPRAINS)", content: `<p>인대(Ligament) 손상을 뜻합니다. 2-3일 내에 전문의 진찰을 권장합니다.</p>` },
+            7: { title: "근육 경련 (MUSCLE CRAMPS)", content: `<p>전해질 불균형과 피로가 원인입니다. 스포츠 음료 섭취와 스트레칭이 효과적입니다.</p>` },
+            8: { title: "어깨 부상 (SHOULDER)", content: `<p>충돌이나 낙상 시 쇄골(Collarbone) 골절 여부를 확인하십시오.</p>` },
+            9: { title: "손목 및 손가락 (WRIST & FINGER)", content: `<p>손가락 탈구 시 억지로 끼우지 말고 부목으로 고정하십시오.</p>` },
+            10: { title: "눈 및 코 부상 (EYE & NOSE)", content: `<p>코피는 고개를 숙이고 콧등을 압박하십시오. 눈 충혈과 통증은 정밀 검사가 필요합니다.</p>` },
+            11: { title: "타박상 (CONTUSION)", content: `<p>미세 혈관 파열에 의한 멍입니다. 정강이 보호대(Shin guards)는 필수입니다.</p>` },
+            12: { title: "고관절 및 서혜부 (HIP & GROIN)", content: `<p>성장기 선수들의 견열 골절(Avulsion fracture)을 주의해야 합니다.</p>` },
+            13: { title: "근육 긴장 (MUSCLE PULLS)", content: `<p>햄스트링 파열 시 "뚝" 소리가 날 수 있습니다. 재발률이 매우 높습니다.</p>` },
+            14: { title: "구강 및 치아 (MOUTH & TOOTH)", content: `<p>빠진 치아는 우유에 담가 5분 이내에 치과에 도착해야 살릴 수 있습니다.</p>` },
+            15: { title: "물집 (BLISTERS)", content: `<p>마찰 방지용 드레싱과 적절한 신발 크기 선택이 예방의 핵심입니다.</p>` },
+            16: { title: "골절 (FRACTURES)", content: `<p>뼈가 부러진 상태입니다. 부목으로 환부를 고정하고 즉시 병원으로 이송하십시오.</p>` },
+            17: { title: "목 및 등 부상 (NECK & BACK)", content: `<p>팔다리의 저림이나 마비 증상이 있다면 절대 움직이지 말고 119를 부르십시오.</p>` }
+        };
+
+        const doctors = [
+            {
+                name: "이정욱 원장", role: "대표원장 / 교수", 
+                img: "https://cdn.imweb.me/thumbnail/20250731/6cfba1b61688d.jpg",
+                desc: "\"정밀한 진단이 최선의 치료를 결정합니다.\"",
+                details: "• 3대 가업 계승 한의사<br>• 가천대 한의대 교수 / FIFA 공인 팀닥터<br>• 스포츠 손상 및 재활 시스템 총괄"
+            },
+            {
+                name: "정지은 원장", role: "전문의 / 교수", 
+                img: "https://cdn.imweb.me/thumbnail/20250731/80aa1cb99bdb9.jpg",
+                desc: "\"선수의 복귀, 속도보다 완성도가 중요합니다.\"",
+                details: "• 소아/여성 스포츠 전문의<br>• 유소년 선수 성장판 관리 및 영양 설계<br>• 근거 기반 한방 스포츠 통합 치료"
+            },
+            {
+                name: "한유경 원장", role: "팀닥터 / 전문의", 
+                img: "https://cdn.imweb.me/thumbnail/20250801/bf8c943efdc87.jpg",
+                desc: "\"현장 피드백을 치료의 핵심으로 삼습니다.\"",
+                details: "• 미국 근골격계 초음파 자격(RMSK)<br>• 다수 프로축구단 팀닥터 역임<br>• 인대/힘줄 강화 및 재활 전문"
+            },
+            {
+                name: "조내경 원장", role: "임상 진료 원장", 
+                img: "https://cdn.imweb.me/thumbnail/20250731/4618b2bf06bb4.jpg",
+                desc: "\"선수의 눈높이에서 공감하고 치료합니다.\"",
+                details: "• 급성 통증 제어 및 빠른 부종 관리 전문<br>• 도수/추나 요법을 통한 신체 밸런스 교정<br>• 부상 방지 교육 프로그램 운영"
+            }
+        ];
+
+        // --- Render Functions ---
+        function renderHome() {
+            const list = document.getElementById('category-list');
+            list.innerHTML = categories.map((cat, i) => `
+                <button onclick="openCategory('${cat.id}')" class="bg-white p-5 border-2 border-slate-100 flex items-center justify-between hover:border-laliga-red transition-all group relative active:scale-[0.98]">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-laliga-black flex items-center justify-center text-white group-hover:bg-laliga-red transition-colors">
+                            <i class="fas ${cat.icon} text-sm"></i>
+                        </div>
+                        <div class="text-left">
+                            <h4 class="font-black text-sm text-laliga-black uppercase tracking-tighter">${cat.title}</h4>
+                            <p class="text-[0.65rem] text-slate-400 font-bold mt-0.5">${cat.desc}</p>
+                        </div>
+                    </div>
+                    <i class="fas fa-arrow-right text-[0.7rem] text-slate-300 group-hover:text-laliga-red group-hover:translate-x-1 transition-all"></i>
+                </button>
+            `).join('');
+
+            const docBtns = document.getElementById('doctor-buttons');
+            docBtns.innerHTML = doctors.map((doc, i) => `
+                <button onclick="showDoctor(${i})" id="doc-btn-${i}" class="doctor-select flex flex-col items-center p-1.5 border-2 border-slate-100 bg-white transition-all ${i===0?'active':''}">
+                    <div class="w-full aspect-square bg-slate-100 mb-2 overflow-hidden border ${i===0?'border-laliga-red':'border-transparent'}">
+                        <img src="${doc.img}" class="w-full h-full object-cover">
+                    </div>
+                    <span class="font-black text-[0.6rem] laliga-black truncate w-full text-center">${doc.name.split(' ')[0]}</span>
+                </button>
+            `).join('');
+            showDoctor(0);
+        }
+
+        function showDoctor(idx) {
+            document.querySelectorAll('.doctor-select').forEach((b, i) => i === idx ? b.classList.add('active') : b.classList.remove('active'));
+            const doc = doctors[idx];
+            const detail = document.getElementById('doctor-detail');
+            detail.style.opacity = '0';
+            setTimeout(() => {
+                detail.innerHTML = `
+                    <div class="absolute top-0 right-0 p-4 opacity-5 italic font-black text-6xl">TEAM</div>
+                    <h4 class="font-black text-white text-lg mb-0.5 tracking-tighter">${doc.name} <span class="text-[0.65rem] text-laliga-red ml-1 font-bold uppercase italic">${doc.role}</span></h4>
+                    <p class="text-xs italic text-slate-400 mb-4 border-l-2 border-laliga-red pl-2 font-medium">${doc.desc}</p>
+                    <div class="text-[0.75rem] leading-relaxed font-bold text-slate-200 border-t border-white/10 pt-4">${doc.details}</div>
+                `;
+                detail.style.opacity = '1';
+                detail.classList.add('fade-in');
+            }, 150);
+        }
+
+        function openCategory(id) {
+            const cat = categories.find(c => c.id === id);
+            document.getElementById('cat-title').innerText = cat.title;
+            document.getElementById('cat-desc').innerText = cat.desc;
+            document.getElementById('item-list').innerHTML = cat.items.map(itemId => {
+                const injury = injuries[itemId];
+                return `
+                    <button onclick="openModal(${itemId})" class="bg-white p-5 border border-slate-200 flex items-center justify-between hover:border-laliga-red active:bg-laliga-gray transition-colors group">
+                        <span class="font-black text-sm text-laliga-black tracking-tighter uppercase">${injury.title}</span>
+                        <i class="fas fa-file-medical text-slate-200 group-hover:text-laliga-red transition-colors"></i>
+                    </button>
+                `;
+            }).join('');
+            document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('view-category').classList.remove('hidden');
+            window.scrollTo(0,0);
+        }
+
+        function closeCategory() {
+            document.getElementById('view-category').classList.add('hidden');
+            document.getElementById('view-home').classList.remove('hidden');
+            window.scrollTo(0,0);
+        }
+
+        function openModal(id) {
+            const data = injuries[id];
+            document.getElementById('modal-title').innerText = data.title;
+            document.getElementById('modal-body').innerHTML = data.content;
+            document.getElementById('modal-backdrop').classList.add('active');
+            document.getElementById('modal-content').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modal-backdrop').classList.remove('active');
+            document.getElementById('modal-content').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        window.onload = renderHome;
+    </script>
+</body>
+</html>
