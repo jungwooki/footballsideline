@@ -37,19 +37,21 @@
         #modal-content { transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); transform: translateY(100%); }
         #modal-content.active { transform: translateY(0); }
 
-        .content-body h4 { font-size: 1.25rem; font-weight: 900; color: #0F0F0F; margin-top: 1.8rem; margin-bottom: 0.8rem; border-left: 6px solid #EE1D23; padding-left: 0.8rem; }
-        .content-body p { color: #333333; line-height: 1.75; margin-bottom: 1.2rem; font-size: 1rem; word-break: keep-all; }
+        .content-body h4 { font-size: 1.15rem; font-weight: 900; color: #0F0F0F; margin-top: 2rem; margin-bottom: 0.8rem; border-left: 6px solid #EE1D23; padding-left: 0.8rem; letter-spacing: -0.02em; }
+        .content-body p { color: #333333; line-height: 1.75; margin-bottom: 1.2rem; font-size: 0.95rem; word-break: keep-all; }
         .content-body ul { background-color: #F8F8F8; border-radius: 4px; padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #EAEAEA; }
-        .content-body li { position: relative; padding-left: 1.5rem; margin-bottom: 0.8rem; font-size: 0.95rem; color: #111111; font-weight: 500; }
+        .content-body li { position: relative; padding-left: 1.2rem; margin-bottom: 0.8rem; font-size: 0.95rem; color: #111111; font-weight: 500; line-height: 1.6; word-break: keep-all; }
         .content-body li::before { content: '▪'; position: absolute; left: 0; color: #EE1D23; font-weight: 900; }
+        .content-body strong { color: #0F0F0F; font-weight: 800; }
         
         /* Red Flag Section: Black Background, White Text */
-        .red-flag-box { background-color: #0F0F0F; color: #FFFFFF; border-radius: 4px; padding: 1.5rem; margin-top: 1.5rem; border-top: 4px solid #EE1D23; }
-        .red-flag-box h5 { color: #EE1D23; font-weight: 900; font-size: 1.1rem; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.6rem; text-transform: uppercase; }
-        .red-flag-box p { color: #E5E5E5 !important; font-size: 0.95rem; line-height: 1.6; margin-bottom: 0; }
+        .red-flag-box { background-color: #0F0F0F; color: #FFFFFF; border-radius: 4px; padding: 1.5rem; margin-top: 1.8rem; margin-bottom: 1.5rem; border-top: 4px solid #EE1D23; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); }
+        .red-flag-box h5 { color: #EE1D23; font-weight: 900; font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; text-transform: uppercase; letter-spacing: -0.02em; }
+        .red-flag-box p { color: #E5E5E5 !important; font-size: 0.95rem; line-height: 1.65; margin-bottom: 0; }
         
-        .return-box { background-color: #F0FDF4; border: 1px solid #DCFCE7; border-radius: 4px; padding: 1.5rem; margin-top: 1.5rem; }
-        .return-box h5 { color: #166534; font-weight: 900; font-size: 1.1rem; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.5rem; }
+        .return-box { background-color: #F0FDF4; border: 1px solid #DCFCE7; border-radius: 4px; padding: 1.5rem; margin-top: 1.5rem; margin-bottom: 1.5rem; }
+        .return-box h5 { color: #166534; font-weight: 900; font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; letter-spacing: -0.02em; }
+        .return-box p { color: #14532D !important; margin-bottom: 0; font-weight: 500; }
 
         .doctor-select.active { border-color: #EE1D23; background-color: #FDF2F2; }
         .btn-laliga { background-color: #EE1D23; color: white; transition: all 0.2s; border-radius: 2px; font-weight: 800; text-transform: uppercase; }
@@ -185,7 +187,7 @@
                 <div class="flex justify-between items-start">
                     <div class="flex-1">
                         <span id="modal-tag" class="text-laliga-red font-black text-[0.65rem] mb-1 block tracking-widest uppercase">MEDICAL DATA REPORT</span>
-                        <h3 id="modal-title" class="text-2xl laliga-font-bold text-laliga-black leading-tight">상세 정보</h3>
+                        <h3 id="modal-title" class="text-xl laliga-font-bold text-laliga-black leading-tight">상세 정보</h3>
                     </div>
                     <button onclick="closeModal()" class="w-10 h-10 bg-laliga-gray flex items-center justify-center text-laliga-black hover:bg-slate-200 transition-colors">
                         <i class="fas fa-times text-lg"></i>
@@ -197,7 +199,7 @@
                 <!-- Injected via JS -->
             </div>
             <!-- Action Button -->
-            <div class="p-6 bg-laliga-black flex-shrink-0">
+            <div class="p-6 bg-laliga-black flex-shrink-0 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.1)]">
                 <button onclick="closeModal()" class="w-full py-4 btn-laliga tracking-widest text-sm">리포트 닫기</button>
             </div>
         </div>
@@ -215,80 +217,311 @@
 
         const injuries = {
             100: {
-                title: "4단계 현장 평가법 (PROTOCOL)",
+                title: "4단계 현장 평가법 (ON-FIELD PROTOCOL)",
                 content: `
                     <div class="bg-laliga-gray p-6 mb-8 border-l-8 border-laliga-red">
                         <p class="font-black text-laliga-black text-lg mb-1 uppercase">현장 응급 평가 매뉴얼</p>
-                        <p class="text-xs text-slate-500 font-extrabold uppercase tracking-widest">On-Field Evaluation Guide</p>
+                        <p class="text-xs text-slate-500 font-extrabold uppercase tracking-widest">SIDELINE SPORTS DOC GUIDE</p>
                     </div>
+                    <p>현장에서 선수가 쓰러졌을 때 당황하지 않고 정확한 처치를 하기 위한 4단계(Story, Look, Feel, Move) 평가법입니다. 이 순서를 습관화하십시오.</p>
+                    
                     <h4>STEP 01: 문진 (The Story)</h4>
-                    <p>선수에게 사고 경위를 듣습니다. "뚝" 하는 소리(Pop)나 찢어지는 느낌(Tear)이 있었는지 확인하십시오. 이는 인대 파열이나 골절의 중요한 단서입니다.</p>
+                    <ul>
+                        <li>선수나 목격자에게 어떻게 다쳤는지 정확히 묻습니다.</li>
+                        <li><strong>핵심 질문:</strong> 다칠 때 "뚝" 하는 소리(Pop)나 찢어지는 느낌(Tear)이 있었습니까? (인대 파열이나 골절의 강력한 단서입니다.)</li>
+                        <li>상대방과 부딪혔는지(Contact), 혼자 방향을 바꾸다 다쳤는지(Non-contact) 파악합니다.</li>
+                    </ul>
+
                     <h4>STEP 02: 관찰 (The Look)</h4>
-                    <p>부상 부위의 부종(Swelling), 출혈, 육안으로 확인되는 변형(Deformity)이 있는지 확인합니다. 즉각적인 변형은 매우 심각한 상황입니다.</p>
+                    <ul>
+                        <li>부상 부위의 부종(Swelling)과 출혈(Bleeding)이 있는지 살핍니다.</li>
+                        <li><strong>육안 변형(Deformity):</strong> 뼈가 튀어나오거나 관절이 비정상적인 각도로 꺾여 있다면 즉시 구급차를 호출해야 합니다.</li>
+                        <li>피부색의 변화(창백해짐, 멍)를 확인합니다.</li>
+                    </ul>
+
                     <h4>STEP 03: 촉진 (The Feel)</h4>
-                    <p>환부 주변을 부드럽게 눌러봅니다. 가벼운 접촉에도 극심한 통증을 느낀다면 골절(Fracture)을 최우선으로 의심해야 합니다.</p>
+                    <ul>
+                        <li>위생 장갑을 착용한 후 부상 부위를 부드럽게 눌러봅니다.</li>
+                        <li>가벼운 접촉에도 선수가 극심한 통증(Point Tenderness)을 호소한다면 단순 타박상이 아닌 <strong>골절(Fracture)</strong>을 최우선으로 의심해야 합니다.</li>
+                        <li>해당 부위에서 열감(Heat)이 느껴지는지 체크합니다.</li>
+                    </ul>
+
                     <h4>STEP 04: 가동 (The Movement)</h4>
-                    <p>선수가 스스로 환부를 움직일 수 있는지(Active Motion) 확인합니다. 스스로 움직이지 못한다면 중등도 이상의 부상이므로 절대 강제로 움직이지 마십시오.</p>
+                    <ul>
+                        <li>선수가 스스로 환부를 움직일 수 있는지(Active Motion) 지시해 봅니다.</li>
+                        <li><strong>절대 금지:</strong> 지도자가 강제로 선수의 관절을 꺾거나 펴려 하지 마십시오(Passive Motion 금지).</li>
+                        <li>스스로 체중을 싣고 서 있을 수 있는지(Weight-bearing) 확인합니다.</li>
+                    </ul>
                 `
             },
             1: {
                 title: "발목 및 발 부상 (ANKLE & FOOT)",
                 content: `
-                    <p>축구에서 가장 빈번한 부상입니다. 주로 발목 염좌(Sprain)이며, 초기 대응이 만성 재발 여부를 결정합니다.</p>
-                    <h4>핵심 평가 항목</h4>
+                    <p>축구에서 발생하는 전체 부상의 상당수를 차지합니다. 대개 발바닥이 안쪽으로 꺾이는 내번 손상(Inversion sprain)이며, 조급한 복귀가 만성적인 발목 불안정성을 유발합니다.</p>
+                    
+                    <h4>현장 처치 (Management)</h4>
                     <ul>
-                        <li>사고 당시 소리나 찢어지는 감각이 있었는가?</li>
-                        <li>부상 후 몇 분 내에 심한 부종이 발생하는가?</li>
-                        <li>선수 스스로 걸어서 경기장 밖으로 나올 수 있는가?</li>
+                        <li><strong>RICE 요법:</strong> 즉각적으로 얼음찜질(Ice)을 하고, 압박 붕대(ACE wrap)를 발끝에서부터 심장 방향으로 단단히 감아 부종을 최소화합니다.</li>
+                        <li>부상 부위를 심장보다 높게 거상(Elevation)시켜 혈류를 안정시킵니다.</li>
                     </ul>
+
                     <div class="red-flag-box">
-                        <h5>⚠️ RED FLAGS (즉시 응급실 이송)</h5>
-                        <p>눈에 띄는 뼈의 변형, 발의 감각 마비 혹은 차가워짐, 전혀 걸을 수 없는 상태(Non-weight bearing)는 즉각적인 정밀 진단이 필요합니다.</p>
+                        <h5><i class="fas fa-exclamation-triangle"></i> RED FLAGS (위험 징후)</h5>
+                        <p>다음에 해당하면 즉시 정밀 X-ray 촬영을 위해 응급실이나 병원으로 이송하십시오.<br><br>
+                        1. 발목 주변 뼈의 명확한 육안적 변형 (Deformity)<br>
+                        2. 발가락 끝의 감각이 무디거나 차갑게 변함 (신경/혈관 손상 의심)<br>
+                        3. 현장에서 스스로 체중을 싣고 <strong>4걸음 이상 전혀 걸을 수 없는 상태</strong> (Non-weight bearing)</p>
+                    </div>
+
+                    <div class="return-box">
+                        <h5><i class="fas fa-check-circle"></i> PLAY OR SIT OUT? (복귀 기준)</h5>
+                        <p><strong>Sit Out:</strong> 절뚝거림(Limping)이 있거나, 통증이 남아있다면 절대 당일 경기에 복귀할 수 없습니다.<br><br>
+                        <strong>Play:</strong> 통증 없이 가볍게 뛸 수 있고(Jogging), 전력 질주, 방향 전환(Cutting), 한 발 뛰기(Hopping)가 완벽하게 정상적으로 가능할 때만 복귀시킵니다.</p>
                     </div>
                 `
             },
             2: {
                 title: "무릎 부상 (KNEE INJURIES)",
                 content: `
-                    <p>축구의 방향 전환 시 발생하는 비접촉성 손상(Non-contact injury)을 가장 주의해야 합니다.</p>
-                    <h4>RICE 요법 시행</h4>
-                    <p>즉시 휴식(Rest), 아이싱(Ice), 압박(Compression), 거상(Elevation)을 시행하여 염증 확산을 막으십시오.</p>
+                    <p>축구의 잦은 방향 전환과 태클로 인해 십자인대(ACL/PCL), 측부인대(MCL/LCL), 반월상 연골(Meniscus) 손상이 빈번하게 발생합니다. 특히 비접촉성 손상(Non-contact injury)을 주의해야 합니다.</p>
+                    
+                    <h4>평가 포인트</h4>
+                    <ul>
+                        <li>상대와의 충돌 없이 혼자 방향을 바꾸다 무릎이 뒤틀렸는가? (전방십자인대 손상의 전형적 패턴)</li>
+                        <li>부상 당시 무릎 내부에서 "팝(Pop)" 하거나 "뚝" 하는 소리를 들었는가?</li>
+                        <li>무릎이 구부러진 채로 펴지지 않거나(Locking), 무릎이 힘없이 꺾이는 느낌(Giving way)이 있는가?</li>
+                    </ul>
+
                     <div class="red-flag-box">
-                        <h5>⚠️ RED FLAGS</h5>
-                        <p>무릎이 어긋난 느낌, 심한 부종, 무릎이 잠기는 현상(Locking) 발생 시 전문가의 진찰이 필수입니다.</p>
+                        <h5><i class="fas fa-exclamation-triangle"></i> RED FLAGS (위험 징후)</h5>
+                        <p>부상 직후 1~2시간 이내에 무릎이 심하게 부어오르는 경우(관절 내 출혈, Hemarthrosis), 혹은 무릎뼈(슬개골)가 제 위치를 이탈한 것이 눈에 보인다면 즉각적인 전문가의 진단이 필수적입니다. 절대 억지로 펴려 하지 마십시오.</p>
+                    </div>
+
+                    <div class="return-box">
+                        <h5><i class="fas fa-check-circle"></i> PLAY OR SIT OUT? (복귀 기준)</h5>
+                        <p>무릎 부상은 다른 관절보다 보수적으로 접근해야 합니다. 통증과 부종이 전혀 없고, 무릎을 끝까지 펴고 구부리는 것이 정상 각도로 나오며, 전력 질주 시 불안정성이 없을 때만 복귀를 고려합니다.</p>
                     </div>
                 `
             },
             3: {
                 title: "뇌진탕 (CONCUSSION)",
                 content: `
-                    <p>의식 소실(Loss of consciousness)이 없더라도 뇌진탕일 수 있습니다. 뇌 기능의 일시적 장애를 뜻합니다.</p>
-                    <h4>관찰 증상</h4>
+                    <p>머리에 가해진 직접적인 충격이나, 몸에 가해진 충격이 목을 통해 뇌로 전달되어 발생하는 일시적인 뇌 기능 장애입니다. <strong>의식 소실(기절)이 없더라도 뇌진탕일 수 있습니다.</strong></p>
+                    
+                    <h4>의심 증상 (Symptoms)</h4>
                     <ul>
-                        <li>멍한 표정, 느린 반응, 대답이 어눌함</li>
-                        <li>극심한 두통, 빛이나 소음에 대한 민감 반응</li>
-                        <li>감정 조절 장애 (갑작스러운 울음이나 화)</li>
+                        <li><strong>신체적:</strong> 두통, 어지럼증, 메스꺼움/구토, 빛이나 소음에 대한 민감함, 균형 감각 상실</li>
+                        <li><strong>인지적:</strong> 멍한 표정, 반응 속도 저하, 방금 전 일어난 플레이를 기억하지 못함(기억상실)</li>
+                        <li><strong>감정적:</strong> 평소와 다르게 예민해지거나, 갑자기 화를 내거나 우는 등 감정 조절 장애</li>
                     </ul>
+
                     <div class="red-flag-box">
-                        <h5>⚠️ RED FLAGS (심각한 뇌손상 징후)</h5>
-                        <p>반복적인 구토, 심한 두통 악화, 경련, 의식 불명, 말소리가 꼬이는 현상이 나타나면 즉시 119를 부르십시오.</p>
+                        <h5><i class="fas fa-exclamation-triangle"></i> RED FLAGS (심각한 뇌손상 징후)</h5>
+                        <p>아래 증상 중 하나라도 나타나면 즉시 119를 부르고 응급실로 이송해야 합니다 (뇌출혈 의심).<br><br>
+                        1. 의식을 잃음 (단 몇 초라도)<br>
+                        2. 시간이 지날수록 점차 극심해지는 두통<br>
+                        3. 반복적인 구토 (2회 이상)<br>
+                        4. 발작(Seizure) 또는 경련<br>
+                        5. 동공의 크기가 양쪽이 다름<br>
+                        6. 말소리가 꼬이고 어눌해짐</p>
+                    </div>
+
+                    <div class="return-box">
+                        <h5><i class="fas fa-check-circle"></i> PLAY OR SIT OUT? (절대 원칙)</h5>
+                        <p><strong>"WHEN IN DOUBT, SIT THEM OUT."</strong><br>
+                        뇌진탕이 조금이라도 의심되는 선수는 <strong>당일 훈련이나 경기에 절대 복귀해서는 안 됩니다.</strong> 증상이 가라앉더라도 의사의 진단서가 있을 때까지 플레이를 금지하며, 단계별 복귀 프로토콜(Graduated Return to Play)을 따라야 합니다.</p>
                     </div>
                 `
             },
-            4: { title: "찰과상 및 열상 (LACERATIONS)", content: `<p>지혈과 세척이 핵심입니다. 상처가 깊으면 즉시 봉합이 필요합니다.</p>` },
-            5: { title: "열 질환 (HEAT ILLNESS)", content: `<p>체온 조절 능력이 부족한 유소년은 열사병(Heat stroke)에 매우 취약합니다.</p>` },
-            6: { title: "염좌 (SPRAINS)", content: `<p>인대(Ligament) 손상을 뜻합니다. 2-3일 내에 전문의 진찰을 권장합니다.</p>` },
-            7: { title: "근육 경련 (MUSCLE CRAMPS)", content: `<p>전해질 불균형과 피로가 원인입니다. 스포츠 음료 섭취와 스트레칭이 효과적입니다.</p>` },
-            8: { title: "어깨 부상 (SHOULDER)", content: `<p>충돌이나 낙상 시 쇄골(Collarbone) 골절 여부를 확인하십시오.</p>` },
-            9: { title: "손목 및 손가락 (WRIST & FINGER)", content: `<p>손가락 탈구 시 억지로 끼우지 말고 부목으로 고정하십시오.</p>` },
-            10: { title: "눈 및 코 부상 (EYE & NOSE)", content: `<p>코피는 고개를 숙이고 콧등을 압박하십시오. 눈 충혈과 통증은 정밀 검사가 필요합니다.</p>` },
-            11: { title: "타박상 (CONTUSION)", content: `<p>미세 혈관 파열에 의한 멍입니다. 정강이 보호대(Shin guards)는 필수입니다.</p>` },
-            12: { title: "고관절 및 서혜부 (HIP & GROIN)", content: `<p>성장기 선수들의 견열 골절(Avulsion fracture)을 주의해야 합니다.</p>` },
-            13: { title: "근육 긴장 (MUSCLE PULLS)", content: `<p>햄스트링 파열 시 "뚝" 소리가 날 수 있습니다. 재발률이 매우 높습니다.</p>` },
-            14: { title: "구강 및 치아 (MOUTH & TOOTH)", content: `<p>빠진 치아는 우유에 담가 5분 이내에 치과에 도착해야 살릴 수 있습니다.</p>` },
-            15: { title: "물집 (BLISTERS)", content: `<p>마찰 방지용 드레싱과 적절한 신발 크기 선택이 예방의 핵심입니다.</p>` },
-            16: { title: "골절 (FRACTURES)", content: `<p>뼈가 부러진 상태입니다. 부목으로 환부를 고정하고 즉시 병원으로 이송하십시오.</p>` },
-            17: { title: "목 및 등 부상 (NECK & BACK)", content: `<p>팔다리의 저림이나 마비 증상이 있다면 절대 움직이지 말고 119를 부르십시오.</p>` }
+            4: {
+                title: "찰과상 및 열상 (ABRASIONS & LACERATIONS)",
+                content: `
+                    <p>인조잔디에서의 슬라이딩이나 스터드에 찍혀 발생하는 피부 외상입니다. 찰과상(쓸림)은 감염 예방이, 열상(찢어짐)은 지혈과 봉합이 핵심입니다.</p>
+                    <h4>현장 관리</h4>
+                    <ul>
+                        <li>의료진은 반드시 라텍스 장갑을 착용하여 감염을 차단합니다.</li>
+                        <li>상처 부위를 생리식염수나 깨끗한 생수로 충분히 씻어내어 이물질(흙, 고무칩)을 제거합니다.</li>
+                        <li>소독된 거즈로 상처를 직접 압박(Direct pressure)하여 지혈합니다.</li>
+                    </ul>
+                    <div class="red-flag-box">
+                        <h5><i class="fas fa-exclamation-triangle"></i> RED FLAGS</h5>
+                        <p>피가 심장 박동에 맞춰 분수처럼 뿜어져 나오는 경우(동맥 손상), 5~10분간의 강한 직접 압박에도 출혈이 멈추지 않는 경우, 뼈가 보일 정도로 상처가 깊거나 넓게 벌어져 꿰매야 하는 경우 즉시 응급실로 향하십시오.</p>
+                    </div>
+                `
+            },
+            5: {
+                title: "열 관련 질환 (HEAT ILLNESS)",
+                content: `
+                    <p>유소년은 땀샘 발달이 성인보다 미숙하여 체온을 발산하는 능력이 떨어집니다. 한여름 훈련 시 열경련 -> 열탈진 -> 열사병으로 급격히 악화될 수 있습니다.</p>
+                    <h4>단계별 증상 및 처치</h4>
+                    <ul>
+                        <li><strong>열경련 (Heat Cramps):</strong> 종아리나 복부 근육의 쥐. 그늘로 이동시켜 스포츠 음료를 먹이고 가볍게 스트레칭합니다.</li>
+                        <li><strong>열탈진 (Heat Exhaustion):</strong> 창백하고 축축한 피부, 극심한 피로, 메스꺼움, 어지럼증. 옷을 느슨하게 하고 시원한 물수건으로 몸을 닦아줍니다. 상태가 호전되지 않으면 병원에 가야 합니다.</li>
+                    </ul>
+                    <div class="red-flag-box">
+                        <h5><i class="fas fa-exclamation-triangle"></i> RED FLAGS: 열사병 (HEAT STROKE)</h5>
+                        <p>열사병은 생명을 위협하는 초응급 상황입니다.<br>
+                        - 땀이 나지 않고 피부가 건조하며 붉고 뜨겁다.<br>
+                        - 의식이 혼미해지거나 쓰러진다.<br>
+                        <strong>처치:</strong> 즉시 119에 신고하고, 얼음물이나 차가운 물을 온몸에 붓고 부채질을 하여 체온을 강제로 떨어뜨려야 합니다.</p>
+                    </div>
+                `
+            },
+            6: {
+                title: "염좌 및 근육 긴장 (SPRAINS & STRAINS)",
+                content: `
+                    <p><strong>Sprain(염좌)</strong>은 뼈와 뼈를 잇는 인대(Ligament)가 늘어나거나 찢어진 것이고, <strong>Strain(긴장/파열)</strong>은 근육이나 힘줄(Tendon)이 손상된 것입니다.</p>
+                    <h4>기본 관리 원칙 (RICE)</h4>
+                    <ul>
+                        <li><strong>Rest (휴식):</strong> 부상 즉시 활동을 멈추고 환부를 쉬게 합니다.</li>
+                        <li><strong>Ice (얼음):</strong> 얼음팩을 수건에 싸서 15~20분간 대어 혈관을 수축시키고 통증을 줄입니다. (피부에 직접 대지 않음)</li>
+                        <li><strong>Compression (압박):</strong> 탄력 붕대로 적당한 압력으로 감아 부종이 퍼지는 것을 막습니다.</li>
+                        <li><strong>Elevation (거상):</strong> 환부를 심장보다 높게 위치시켜 체액이 몰리지 않게 합니다.</li>
+                    </ul>
+                `
+            },
+            7: {
+                title: "근육 경련 (MUSCLE CRAMPS)",
+                content: `
+                    <p>흔히 "쥐가 났다"고 표현하는 근육의 불수의적 수축입니다. 축구에서는 주로 후반전에 종아리(Calf)나 햄스트링에 발생하며, 수분 및 전해질 부족, 근육 피로가 주원인입니다.</p>
+                    <h4>현장 대처법</h4>
+                    <ul>
+                        <li>근육이 뭉친 반대 방향으로 가볍고 꾸준하게 스트레칭(Static stretch)을 해줍니다. 튕기듯 늘리지 마십시오.</li>
+                        <li>부드럽게 마사지하며 근육을 풀어줍니다.</li>
+                        <li>전해질이 포함된 스포츠 음료를 천천히 마시게 합니다.</li>
+                    </ul>
+                `
+            },
+            8: {
+                title: "어깨 부상 (SHOULDER INJURIES)",
+                content: `
+                    <p>태클을 당하거나 공중볼 경합 후 땅에 어깨로 떨어지면서 발생합니다. 쇄골 골절(Collarbone fracture)이나 어깨 관절 탈구(Dislocation), AC 관절 분리 등이 흔합니다.</p>
+                    <h4>현장 평가 및 처치</h4>
+                    <ul>
+                        <li>양쪽 어깨의 윤곽이 대칭인지 눈으로 비교합니다 (Look).</li>
+                        <li>쇄골 라인을 따라 살짝 눌러보아 뼈가 어긋나거나 극심한 통증이 있는지 확인합니다 (Feel).</li>
+                        <li>팔걸이(Sling)나 붕대로 팔을 가슴에 밀착시켜 고정하고 얼음을 댑니다.</li>
+                    </ul>
+                    <div class="red-flag-box">
+                        <h5><i class="fas fa-exclamation-triangle"></i> RED FLAGS</h5>
+                        <p>명확한 뼈의 변형이나 탈구가 육안으로 확인될 때, <strong>지도자가 절대 임의로 뼈를 맞추려(Set) 해서는 안 됩니다.</strong> 이는 신경과 혈관을 영구적으로 손상시킬 수 있습니다. 고정 후 즉시 응급실로 이동하십시오.</p>
+                    </div>
+                `
+            },
+            9: {
+                title: "손목 및 손가락 (WRIST, HAND & FINGER)",
+                content: `
+                    <p>넘어질 때 손을 짚으면서(FOOSH: Fall On Outstretched Hand) 발생하는 손목 뼈(주상골 등) 골절이나, 골키퍼의 손가락 꺾임 현상이 대표적입니다.</p>
+                    <h4>현장 관리</h4>
+                    <ul>
+                        <li><strong>손가락 부상:</strong> 단순 삠의 경우, 다친 손가락을 옆의 건강한 손가락과 함께 반창고로 묶어 지지하는 <strong>버디 테이핑(Buddy Taping)</strong>이 유용합니다.</li>
+                        <li><strong>손목 부상:</strong> 통증이 심해 물건을 쥘 수 없다면 골절을 의심하고 부목으로 고정한 뒤 병원 X-ray를 찍어야 합니다.</li>
+                    </ul>
+                `
+            },
+            10: {
+                title: "눈 및 코 부상 (EYE & NOSE)",
+                content: `
+                    <p>공에 강하게 맞거나 팔꿈치에 가격 당했을 때 발생합니다.</p>
+                    <h4>코피 (Epistaxis) 대처</h4>
+                    <ul>
+                        <li>고개를 뒤로 젖히면 피가 기도로 넘어가 위험합니다. <strong>고개를 약간 앞으로 숙이게 합니다.</strong></li>
+                        <li>코의 부드러운 연골 부위를 엄지와 검지로 강하게 5~10분간 지속적으로 압박합니다.</li>
+                    </ul>
+                    <div class="red-flag-box">
+                        <h5><i class="fas fa-exclamation-triangle"></i> RED FLAGS (눈 부상)</h5>
+                        <p>눈앞에 번쩍거리는 빛이 보이거나(망막 박리 의심), 시야가 흐려지거나 두 개로 보이는 경우(복시), 눈동자 안쪽(전안방)에 피가 고인 것이 육안으로 관찰되는 경우 즉각 안과 전문의의 진료가 필요합니다.</p>
+                    </div>
+                `
+            },
+            11: {
+                title: "타박상 / 멍 (CONTUSION)",
+                content: `
+                    <p>상대방의 무릎이나 스터드에 직접 가격 당해 피하 미세혈관이 터지며 생기는 멍입니다. 허벅지 앞쪽(Quadriceps)에 맞는 이른바 '데드 레그(Dead leg)'가 대표적입니다.</p>
+                    <h4>관리법</h4>
+                    <ul>
+                        <li>허벅지 타박상의 경우, 얼음찜질을 할 때 무릎을 최대한 구부린 상태(스트레칭 상태)에서 얼음을 대주면, 근육이 짧아진 채로 굳는 것을 방지하여 복귀를 앞당길 수 있습니다.</li>
+                        <li>단단한 정강이 보호대(Shin guards)의 올바른 착용이 최선의 예방책입니다.</li>
+                    </ul>
+                `
+            },
+            12: {
+                title: "고관절 및 서혜부 (HIP & GROIN)",
+                content: `
+                    <p>급격한 방향 전환이나 강력한 슈팅 시 고관절 주변과 서혜부(사타구니) 근육이 무리하게 당겨지며 발생합니다.</p>
+                    <h4>유소년 특이 주의사항</h4>
+                    <ul>
+                        <li>성장기 유소년의 경우 뼈가 덜 단단하여, 근육이 찢어지기보다 근육이 붙어있는 골반 뼈의 일부를 물고 떨어져 나가는 <strong>견열 골절(Avulsion Fracture)</strong>이 종종 발생합니다.</li>
+                        <li>서혜부 통증이 며칠 쉬어도 가라앉지 않거나, 뛸 때마다 찌르는 듯한 통증이 재발한다면 단순 근육통이 아닐 수 있으므로 정밀 검사를 받아야 합니다.</li>
+                    </ul>
+                `
+            },
+            13: {
+                title: "근육 파열 / 햄스트링 (MUSCLE PULLS)",
+                content: `
+                    <p>허벅지 뒤쪽(햄스트링)이나 앞쪽(대퇴사두근)이 순간적으로 찢어지는 부상입니다. 전력 질주(Sprinting) 시 주로 발생합니다.</p>
+                    <h4>평가 및 복귀 기준</h4>
+                    <ul>
+                        <li>다칠 때 근육 안에서 "뚝" 하거나 고무줄이 끊어지는 느낌을 받습니다.</li>
+                        <li><strong>재발률이 매우 높은 부상</strong>입니다. 완전히 낫기 전에 복귀하면 더 큰 파열로 이어집니다.</li>
+                        <li><strong>Play or Sit Out:</strong> 걸을 때 통증이 없더라도 전력 질주를 100% 소화할 수 없다면 절대 경기에 투입해서는 안 됩니다.</li>
+                    </ul>
+                `
+            },
+            14: {
+                title: "구강 및 치아 (MOUTH & TOOTH)",
+                content: `
+                    <p>경합 중 팔꿈치에 맞아 치아가 부러지거나 통째로 빠질(Avulsion) 수 있습니다.</p>
+                    <h4>치아가 빠졌을 때의 초응급 처치</h4>
+                    <ul>
+                        <li>빠진 치아의 <strong>머리(Crown) 부분만 잡고, 뿌리(Root) 부분을 손으로 비벼 씻거나 닦지 마십시오.</strong> (뿌리 세포가 죽으면 치아를 살릴 수 없습니다.)</li>
+                        <li>가장 좋은 방법은 생리식염수나 <strong>차가운 우유</strong>에 담가 보관하는 것입니다. (맹물은 세포를 파괴하므로 피하세요.)</li>
+                        <li><strong>골든 타임은 30분입니다.</strong> 부상 즉시 치아를 챙겨 치과 응급실로 향해야 합니다.</li>
+                    </ul>
+                `
+            },
+            15: {
+                title: "물집 (BLISTERS)",
+                content: `
+                    <p>새 축구화나 젖은 양말로 인해 발에 지속적인 마찰이 생겨 발생합니다.</p>
+                    <h4>관리 가이드</h4>
+                    <ul>
+                        <li>원칙적으로 물집은 터뜨리지 않고 주변에 도넛 모양의 패드를 대어 마찰을 줄이는 것이 좋습니다 (감염 방지).</li>
+                        <li>너무 커서 통증이 심해 경기에 지장을 준다면, 소독된 바늘로 물집의 가장자리 끝을 살짝 찔러 액체만 빼냅니다.</li>
+                        <li><strong>주의:</strong> 물집의 윗부분 피부(Roof)를 가위로 잘라내거나 벗겨내지 마십시오. 피부 자체가 천연 드레싱 역할을 합니다.</li>
+                    </ul>
+                `
+            },
+            16: {
+                title: "골절 (FRACTURES)",
+                content: `
+                    <p>뼈의 연속성이 끊어진 상태입니다. 축구에서는 발목, 정강이(경골), 팔목 등에 흔히 발생합니다.</p>
+                    <h4>응급 처치 원칙</h4>
+                    <ul>
+                        <li>현장에서 뼈의 위치를 억지로 바로잡으려 하지 마십시오.</li>
+                        <li><strong>발견된 자세 그대로(As it lies)</strong> 나무판자, 두꺼운 박스, 또는 여러 겹의 신문지 등을 이용해 부목(Splint)을 대고 고정합니다.</li>
+                    </ul>
+                    <div class="red-flag-box">
+                        <h5><i class="fas fa-exclamation-triangle"></i> RED FLAGS</h5>
+                        <p>부러진 뼈가 피부를 뚫고 나온 개방성 골절(Open fracture)은 감염의 위험이 매우 큽니다. 깨끗한 수건이나 거즈로 가볍게 덮고 즉시 119를 부르십시오. 부러진 부위 아래쪽(예: 팔이 부러졌을 때 손가락)에 맥박이 안 뛰거나 피가 안 통한다면 초응급 상황입니다.</p>
+                    </div>
+                `
+            },
+            17: {
+                title: "목 및 척추 부상 (NECK & BACK)",
+                content: `
+                    <p>헤딩 경합 중 공중에서 중심을 잃고 등이나 목으로 비정상적으로 추락했을 때 발생합니다. 척수 신경 손상의 가능성이 있는 가장 위험한 부상입니다.</p>
+                    <h4>절대 수칙</h4>
+                    <ul>
+                        <li>선수가 쓰러져서 극심한 통증을 호소하거나 움직이지 못한다면 <strong>절대 선수를 안아서 일으켜 세우거나 몸을 굴려서는 안 됩니다.</strong></li>
+                        <li>지도자는 선수의 머리를 양손으로 지지하여 목이 움직이지 않게 고정(C-spine stabilization)한 상태로 구조대를 기다려야 합니다.</li>
+                    </ul>
+                    <div class="red-flag-box">
+                        <h5><i class="fas fa-exclamation-triangle"></i> RED FLAGS (신경 손상 징후)</h5>
+                        <p>팔, 다리, 혹은 손가락/발가락에 찌릿찌릿한 저림이나 마비 증상(Numbness, Tingling)이 있는 경우, 목덜미 뼈 한가운데를 눌렀을 때 찌르는 듯한 통증이 있는 경우는 척추 신경 손상을 강력히 시사합니다. 즉시 119 구조대원의 지시를 따르십시오.</p>
+                    </div>
+                `
+            }
         };
 
         const doctors = [
@@ -396,6 +629,11 @@
             document.getElementById('modal-backdrop').classList.add('active');
             document.getElementById('modal-content').classList.add('active');
             document.body.style.overflow = 'hidden';
+            
+            // 모달 열 때 스크롤 최상단으로 이동
+            setTimeout(() => {
+                document.getElementById('modal-body').scrollTop = 0;
+            }, 10);
         }
 
         function closeModal() {
